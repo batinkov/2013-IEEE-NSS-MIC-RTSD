@@ -405,14 +405,18 @@
 % was not built to handle multiple paragraphs
 %
 
-\author{Michael~Shell,~\IEEEmembership{Member,~IEEE,}
-        John~Doe,~\IEEEmembership{Fellow,~OSA,}
-        and~Jane~Doe,~\IEEEmembership{Life~Fellow,~IEEE}% <-this % stops a space
-\thanks{M. Shell is with the Department
-of Electrical and Computer Engineering, Georgia Institute of Technology, Atlanta,
-GA, 30332 USA e-mail: (see http://www.michaelshell.org/contact.html).}% <-this % stops a space
-\thanks{J. Doe and J. Doe are with Anonymous University.}% <-this % stops a space
-\thanks{Manuscript received April 19, 2005; revised January 11, 2007.}}
+\author{Atanas~Batinkov,
+		Marco~Rovere,
+		Laura~Borrello,
+		Federico~De~Guio,
+		Daniel~Duggan,
+		and~Salvatore~Di~Guida on behalf of the CMS Collaboration% <-this % stops a space        
+\thanks{A. Batinkov is with the University of Sofia (BG).}% <-this % stops a space
+\thanks{M. Rovere is with CERN.}% <-this % stops a space
+\thanks{L. Borrello is with the University of Wisconsin (US).}% <-this % stops a space
+\thanks{F. De Guio is with CERN.}% <-this % stops a space
+\thanks{D. Duggan is with the Rutgers, State Univ. of New Jersey (US).}% <-this % stops a space
+\thanks{S. Di Guida is with the Universita degli Studi Guglielmo Marconi (IT).}}% <-this % stops a space
 
 % note the % following the last \IEEEmembership and also \thanks - 
 % these prevent an unwanted space from occurring between the last author name
@@ -478,9 +482,9 @@ The Data Quality Monitoring Software proved to be a central tool in the Compact 
 % in the abstract anyway.
 
 % Note that keywords are not normally used for peerreview papers.
-\begin{IEEEkeywords}
-IEEEtran, journal, \LaTeX, paper, template.
-\end{IEEEkeywords}
+% \begin{IEEEkeywords}
+% IEEEtran, journal, \LaTeX, paper, template.
+% \end{IEEEkeywords}
 
 
 
@@ -515,53 +519,50 @@ IEEEtran, journal, \LaTeX, paper, template.
 % 
 % Here we have the typical use of a "T" for an initial drop letter
 % and "HIS" in caps to complete the first word.
-\IEEEPARstart{T}{he} Large Hadron Collider (LHC) [3] at CERN [4] collides protons together at close to the speed of light. Some of the collision energy is turned into mass, creating new particles which are observed in the Compact Muon Solenoid (CMS) [5] particle detector. CMS data is analyzed by physicists around the world to reconstruct a picture of what happened at the heart of these collisions. Data quality monitoring (DQM) is a crucial part of the experiment. Its purpose is to identify errors and problems in the detector hardware or reconstruction software. The ultimate goal is a stable detector leading to high quality reconstructed collision events. There are two main branches of the monitoring framework, online and offline, and each is discussed in detail below.
+\IEEEPARstart{T}{he} Large Hadron Collider (LHC) \cite{LHC} at CERN \cite{CERN} collides protons together at close to the speed of light. Some of the collision energy is turned into mass, creating new particles which are observed in the Compact Muon Solenoid (CMS) \cite{CMS} particle detector. CMS data is analyzed by physicists around the world to reconstruct a picture of what happened at the heart of these collisions. Data quality monitoring (DQM) is a crucial part of the experiment. Its purpose is to identify errors and problems in the detector hardware or reconstruction software. The ultimate goal is a stable detector leading to high quality reconstructed collision events. There are two main branches of the monitoring framework, online and offline, and each is discussed in detail below.
 % You must have at least 2 lines in the paragraph with the drop letter
 % (should never be an issue)
 
-\hfill mds
- 
-\hfill January 11, 2007
-
-
 \section{DQM online realm}
-The online DQM is responsible for identifying problems with detector performance and data integrity during data-taking periods (runs). This is real-time data monitoring, fast response time periods to identify serious issues coming from detector problems or running conditions. The objective is to minimize the recording of bad data by giving instant feedback to experts (Fig. \ref{OnlineChain}).
+The online DQM is responsible for identifying problems with detector performance and data integrity during data-taking periods (runs). This is real-time data monitoring, fast response time periods to identify serious issues coming from detector problems or running conditions. The objective is to minimize the recording of bad data by giving instant feedback to experts (Fig. \ref{fig:OnlineChain}).
 
 \begin{figure}
 \includegraphics[width=0.5\textwidth, keepaspectratio=true]{OnlineChain.png}
 \caption{The DQM online chain. This figure outlines the 3 main aspects of the online realm: the online cluster and the archive area, the online DQM GUI and the sound alarm, the online shifter}
-\label{OnlineChain}
+\label{fig:OnlineChain}
 \end{figure}
 
 \subsection{DQM online cluster \& the archive area}
 The DQM online cluster processes live data and produces histograms that are used to identify problems during the data-taking. It hosts the DQM framework, part of the CMS software framework (CMSSW). All detector subsystems have their own online monitoring applications run centrally through the DQM framework. They produce real-time histograms that are transferred to the DQM GUI over the local network. New software from the detector subsystems is deployed on demand twice a week so all the subsystems can keep their applications up to date under this flexible and responsive scheme. To ensure stability, all software changes are tested and verified in an online replica cluster for a 24hr period before they are deployed at the production machines.
 
-All the produced histograms are periodically archived as ROOT [6] files for a continuous backup in the online archive area. This archive is used in the rare case of a DQM GUI database failure. If this happens, the online ROOT files from the archive area can be injected into the DQM GUI in order to restore the database.
+All the produced histograms are periodically archived as ROOT \cite{ROOT} files for a continuous backup in the online archive area. This archive is used in the rare case of a DQM GUI database failure. If this happens, the online ROOT files from the archive area can be injected into the DQM GUI in order to restore the database.
 
 \subsection{DQM online GUI \& the sound alarm}
-The online DQM GUI (Fig. \ref{OnlineGUI}) collects, stores, and visualizes the results from the online applications. It is web based, which makes it OS independent and accessible from everywhere around the world. It is almost completely decoupled from the CMSSW, which makes it easy to install. The GUI has its own key-value database called ’index’ to store the serialized histogram data. The ROOT framework is used to render the data from the index to histograms. This process is detached from the server which also guarantees stability in case of a ROOT crash. The DQM GUI allows customizations. Users from the detector subsystems can define different workspaces, layouts and render plug-ins for their histogram sets. The GUI also has rich web API that supports JSON format. Everything that the user needs can be retrieved from the server in serialized JSON format. In order to benefit from the GUI customization abilities the DQM team provides flexible schema for new software deployment.
+\label{sec:OnlineGUI}
+The online DQM GUI (Fig. \ref{fig:OnlineGUI}) collects, stores, and visualizes the results from the online applications. It is web based, which makes it OS independent and accessible from everywhere around the world. It is almost completely decoupled from the CMSSW, which makes it easy to install. The GUI has its own key-value database called ’index’ to store the serialized histogram data. The ROOT framework is used to render the data from the index to histograms. This process is detached from the server which also guarantees stability in case of a ROOT crash. The DQM GUI allows customizations. Users from the detector subsystems can define different workspaces, layouts and render plug-ins for their histogram sets. The GUI also has rich web API that supports JSON format. Everything that the user needs can be retrieved from the server in serialized JSON format. In order to benefit from the GUI customization abilities the DQM team provides flexible schema for new software deployment.
 
 \begin{figure}
 \includegraphics[width=0.5\textwidth, keepaspectratio=true]{OnlineGUI.png}
 \caption{The DQM online GUI. This picture shows the summary workspace.}
-\label{OnlineGUI}
+\label{fig:OnlineGUI}
 \end{figure}
 
 A real-time alarm system to alert shifters and experts at the detector of potential issues and the quality of the recorded data is used. It indicates critical problems and maximizes good quality data during data taking. Customized histograms provided from subsystems act as triggers to identify critical problems. These histograms are hosted in a dedicated central location in the online GUI mapped to the audio alarm for the shift crew.
 
 \subsection{Online shifter \& the DQM on-call}
-The scope of the DQM online shift is to identify problems with detector performance and data integrity during the run. Shifts take place at the CMS control room on the site of the detector. Dedicated DQM shifts are scheduled 24/7 in data taking periods. There are 3 shifts per day and each takes 8 hours. The online shifter monitors a subset of histograms for every detector and reconstruction objects in the DQM GUI. The tools of the online DQM shifter are: the DQM GUI, the twiki pages, online Run Registry (Fig. \ref{OnlineRunRegistry}) and the Elog (Fig. \ref{Elog}). The Twiki Pages provide a comprehensive set of instructions of how to evaluate individual histograms, and what steps to take in case of problems. The Run Registry is a web-based bookkeeping tool that collects information about all the significant runs and the data certification results from those runs. The Elog is a central logging system where all parties can leave comments and report issues, among many other use cases.
+\label{sec:OnlineShifter}
+The scope of the DQM online shift is to identify problems with detector performance and data integrity during the run. Shifts take place at the CMS control room on the site of the detector. Dedicated DQM shifts are scheduled 24/7 in data taking periods. There are 3 shifts per day and each takes 8 hours. The online shifter monitors a subset of histograms for every detector and reconstruction objects in the DQM GUI. The tools of the online DQM shifter are: the DQM GUI, the twiki pages, online Run Registry (Fig. \ref{fig:OnlineRunRegistry}) and the Elog (Fig. \ref{fig:Elog}). The Twiki Pages provide a comprehensive set of instructions of how to evaluate individual histograms, and what steps to take in case of problems. The Run Registry is a web-based bookkeeping tool that collects information about all the significant runs and the data certification results from those runs. The Elog is a central logging system where all parties can leave comments and report issues, among many other use cases.
 
 \begin{figure}
 \includegraphics[width=0.5\textwidth, keepaspectratio=true]{OnlineRunRegistry.png}
 \caption{Online Run Registry. On the top you can see the list of runs waiting to be certified. On the bottom is the list of certified runs.}
-\label{OnlineRunRegistry}
+\label{fig:OnlineRunRegistry}
 \end{figure}
 
 \begin{figure}
 \includegraphics[width=0.5\textwidth, keepaspectratio=true]{Elog.png}
-\caption{Elog. In the centre a typical Elgo usage is shown. All the detector subsystems are organized in sections on the left.}
-\label{Elog}
+\caption{Elog. In the center a typical Elog usage is shown. All the detector subsystems are organized in sections on the left.}
+\label{fig:Elog}
 \end{figure}
 
 The DQM on-call coordinates the actions that need to be taken if a problem occurs, and needs to be available 24/7 over the phone and online. The on-call fixes all problems related to the DQM tools and acts as point of contact for all other issues.
@@ -577,7 +578,7 @@ Improvements of the monitoring system of the DQM online machines are also planne
 
 Compression of the archived online ROOT files is also under investigation. This could reduce the space usage by 50\%. The archive area will be automatically cleaned up to avoid interruptions.
 
-One improvement that will be made to the DQM GUI is the growth of database key from 64 to 128 bit, greatly increasing the index storage. Another is that the database will be split into several pieces - each piece for a different month. This hugely improves the overall robustness of the system because once the month is over the corresponding piece will be reopened in read-only mode and archived, this minimizes the potential loss of data to a single month. Server-client communication improvements are also planned. An increase of the communication speed, compression of the transferred data and even client-side render of the histograms will be introduced. The database also could be migrated to Kyoto cabinet [7] or leveldb [8] if they provide better performance.
+One improvement that will be made to the DQM GUI is the growth of database key from 64 to 128 bit, greatly increasing the index storage. Another is that the database will be split into several pieces - each piece for a different month. This hugely improves the overall robustness of the system because once the month is over the corresponding piece will be reopened in read-only mode and archived, this minimizes the potential loss of data to a single month. Server-client communication improvements are also planned. An increase of the communication speed, compression of the transferred data and even client-side render of the histograms will be introduced. The database also could be migrated to Kyoto cabinet \cite{kyotocabinet} or leveldb \cite{leveldb} if they provide better performance.
 
 The alarm system also will be improved. An easy suppression of the individual errors without interaction from a DQM expert will be added, allowing the shift crew to suppress/enable individual alarms. The error messages may also be extended to provide additional information useful in resolving specific problems.
 
@@ -585,22 +586,22 @@ The alarm system also will be improved. An easy suppression of the individual er
 %\IEEEpubidadjcol
 
 \section{DQM offline realm}
-The DQM offline system is used for certification of the recorded data. It provides a detailed view of the complete event reconstruction from all recorded data. Only certified data may be used in CMS analyses for publication (Fig. \ref{OfflineChain}).
+The DQM offline system is used for certification of the recorded data. It provides a detailed view of the complete event reconstruction from all recorded data. Only certified data may be used in CMS analyses for publication (Fig. \ref{fig:OfflineChain}).
 
 \begin{figure}
 \includegraphics[width=0.5\textwidth, keepaspectratio=true]{OfflineChain.png}
 \caption{The DQM offline chain. The figure outlines the main aspects of the offline realm: DQM offline data processing, the offline DQM GUI and offline data certification.}
-\label{OfflineChain}
+\label{fig:OfflineChain}
 \end{figure}
 
 \subsection{DQM Offline data processing}
-The DQM offline data processing runs at CERN’s computing centre and produces histograms that are further examined for data to be certified. In the offline all data is processed. This process includes prompt reconstruction as well as detector data analysis. The offline DQM process is split into two steps: the DQM step and the harvesting step. In the DQM step the histograms are created and filled with information from the CMS event data. In the harvesting step the histograms are extracted from the event data files and summed together across the entire run to yield full event statistics. The final results are output to ROOT files, injected into the offline GUI and archived.
+The DQM offline data processing runs at CERN’s computing center and produces histograms that are further examined for data to be certified. In the offline all data is processed. This process includes prompt reconstruction as well as detector data analysis. The offline DQM process is split into two steps: the DQM step and the harvesting step. In the DQM step the histograms are created and filled with information from the CMS event data. In the harvesting step the histograms are extracted from the event data files and summed together across the entire run to yield full event statistics. The final results are output to ROOT files, injected into the offline GUI and archived.
 
 \subsection{The offline DQM GUI}
-The DQM GUI collects, stores, and visualizes the results from the offline DQM data processing. The GUI shares the same code as the online GUI (for a full list of features and improvements see ) but with a different look in the user interface. Online and offline GUIs have their own set of workspaces, layouts and render plug-ins that define their unique look. The offline GUI needs to be even more stable that the online so the deployment schema is more rigid. The installation of new software follows the official releases of an internal CMS group responsible for the web services of the collaboration.
+The DQM GUI collects, stores, and visualizes the results from the offline DQM data processing. The GUI shares the same code as the online GUI (for a full list of features and improvements see \ref{sec:OnlineGUI}) but with a different look in the user interface. Online and offline GUIs have their own set of workspaces, layouts and render plug-ins that define their unique look. The offline GUI needs to be even more stable than the online so the deployment schema is more rigid. The installation of new software follows the official releases of an internal CMS group responsible for the web services of the collaboration.
 
 \subsection{The offline data certification}
-The offline data certification is performed by three groups: the offline shifter, the subsystem experts and the DQM certification expert. The scope of the DQM offline shift is to produce certifications for various reconstruction iterations. It operate at CERN, FNAL [9] and DESY [10]. There are 4 shifts per day and each takes 6 hours. Offline DQM shifts can be scheduled outside of global data taking periods. The offline shifter monitors a subset of histograms for every detector and reconstruction objects in the offline DQM GUI. The tools of the DQM offline shifter are explained in section *** with the exception that they are tuned for the offline DQM. After the shifter job is done the experts from all subsystems produce certifications for specific detectors or reconstruction algorithms. Finally the DQM certification experts combine the results from the offline shifters and the subsystem experts to provide the list of runs certified as usable for physics analysis.
+The offline data certification is performed by three groups: the offline shifter, the subsystem experts and the DQM certification expert. The scope of the DQM offline shift is to produce certifications for various reconstruction iterations. It operate at CERN, FNAL \cite{FNAL} and DESY \cite{DESY}. There are 4 shifts per day and each takes 6 hours. Offline DQM shifts can be scheduled outside of global data taking periods. The offline shifter monitors a subset of histograms for every detector and reconstruction objects in the offline DQM GUI. The tools of the DQM offline shifter are explained in section \ref{sec:OnlineShifter} with the exception that they are tuned for the offline DQM. After the shifter job is done the experts from all subsystems produce certifications for specific detectors or reconstruction algorithms. Finally the DQM certification experts combine the results from the offline shifters and the subsystem experts to provide the list of runs certified as usable for physics analysis.
 
 \subsection{Improvements in the offline}
 The framework of the CMS reconstruction software is currently migrating to multi-core, multi-thread data processing. The DQM framework is being adapted to the new processing model. This requires many changes to all the participants in the offline data processing.
@@ -709,13 +710,13 @@ The DQM provides a full end-to-end data quality monitoring system for the CMS ex
 
 
 \appendices
-\section{Proof of the First Zonklar Equation}
-Appendix one text goes here.
+% \section{Proof of the First Zonklar Equation}
+% Appendix one text goes here.
 
 % you can choose not to have a title for an appendix
 % if you want by leaving the argument blank
-\section{}
-Appendix two text goes here.
+% \section{}
+% Appendix two text goes here.
 
 
 % use section* for acknowledgement
@@ -799,22 +800,22 @@ http://www.desy.de/
 %\begin{biography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
 % or if you just want to reserve a space for a photo:
 
-\begin{IEEEbiography}{Michael Shell}
-Biography text here.
-\end{IEEEbiography}
+% \begin{IEEEbiography}{Michael Shell}
+% Biography text here.
+% \end{IEEEbiography}
 
 % if you will not have a photo at all:
-\begin{IEEEbiographynophoto}{John Doe}
-Biography text here.
-\end{IEEEbiographynophoto}
+% \begin{IEEEbiographynophoto}{John Doe}
+% Biography text here.
+% \end{IEEEbiographynophoto}
 
 % insert where needed to balance the two columns on the last page with
 % biographies
 %\newpage
 
-\begin{IEEEbiographynophoto}{Jane Doe}
-Biography text here.
-\end{IEEEbiographynophoto}
+% \begin{IEEEbiographynophoto}{Jane Doe}
+% Biography text here.
+% \end{IEEEbiographynophoto}
 
 % You can push biographies down or up by placing
 % a \vfill before or after them. The appropriate
@@ -832,5 +833,3 @@ Biography text here.
 
 % that's all folks
 \end{document}
-
-
